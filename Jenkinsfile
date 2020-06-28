@@ -34,16 +34,34 @@ pipeline {
 
 
     stages {
-        stage("\u001B[31mI'm Red\u001B[0m Now not") {
+
+        stage('Initialize') {
+            environment {
+                // Some stage specific variables
+            }
+            steps {
+                when {
+		    branch 'master'
+		 }
+                steps {
+                   echo 'BASIC WHEN - Master Branch!'
+                }
+        }
+
+
+
+        stage('Build') {
             steps {
                 echo 'Building..'
             }
         }
+
         stage('Test') {
             steps {
                 echo 'Testing..'
             }
         }
+
         stage('Deploy') {
             steps {
                 echo 'Deploying..'
