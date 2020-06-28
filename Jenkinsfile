@@ -20,8 +20,20 @@
  * // ----------------------------------------------------------------------
  */
 
-pipeline { 
+pipeline {
     agent any
+
+    options {
+        // Check options: https://www.jenkins.io/doc/pipeline/steps/
+        timestamps()
+        retry(3)
+        ansiColor("xterm")
+        timeout time:10, unit:'MINUTES'
+        timeout(time: 3, unit: "SECONDS")
+
+        buildDiscarder(logRotator(numToKeepStr:'5'))   // Only keep the 10 most recent builds
+   }
+
 
     stages {
         stage('Build') {
@@ -36,7 +48,7 @@ pipeline {
         }
         stage('Deploy') {
             steps {
-                echo 'Deploying....'
+                echo 'Deploying..'
             }
         }
     }
