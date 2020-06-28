@@ -26,13 +26,11 @@ pipeline {
 
     options {
         // Check options: https://www.jenkins.io/doc/pipeline/steps/
-        timestamps()
-        retry(3)
-        ansiColor("xterm")
-        timeout(time: 20, unit: "SECONDS")
-
-        buildDiscarder(logRotator(numToKeepStr:'5'))   // Only keep the 10 most recent builds
-   }
+        timestamps()                                    // Add timestamps to the Console Output
+        ansiColor("xterm")                              // Color ANSI Console Output
+        timeout(time: 20, unit: "SECONDS")              // Executes the code inside the block with a determined time out limit.
+        buildDiscarder(logRotator(numToKeepStr:'10'))   // Only keep the 10 most recent builds
+    }
 
 
     stages {
