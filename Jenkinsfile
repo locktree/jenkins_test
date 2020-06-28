@@ -50,7 +50,7 @@ pipeline {
                 writeFile file: 'test-results.txt', text: 'hello passed'   //write file to jenkins workspace
                 sh 'cat test-results.txt'
 
-                sh 'env | sort'
+                //sh 'env | sort'
             }
         }
 
