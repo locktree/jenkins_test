@@ -22,10 +22,7 @@ def getChangeLog() {
 }
 
 def getCurrentBranch () {
-    return sh (
-            script: 'git rev-parse --abbrev-ref HEAD',
-            returnStdout: true
-    ).trim()
+    return sh (script: 'git rev-parse --abbrev-ref HEAD', returnStdout: true).trim()
 }
 
 def isPRMergeBuild() {
@@ -108,6 +105,7 @@ pipeline {
              print("${PR_List}")
 
              // something else
+             echo env.BRANCH_NAME
              if(env.BRANCH_NAME == "master") {
                    echo 'masterrrrrrrrrrrrr'
              } else {
