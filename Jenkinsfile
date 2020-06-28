@@ -83,7 +83,7 @@ pipeline {
                 writeFile file: 'test-results.txt', text: 'hello passed'   //write file to jenkins workspace
                 sh 'cat test-results.txt'
 
-                sh 'env | sort'
+                //sh 'env | sort'
             }
         }
 
@@ -97,12 +97,12 @@ pipeline {
          script {
              branchName = getCurrentBranch()
              shortCommitHash = getShortCommitHash()
-             echo $branchName
-	     echo $shortCommitHash
+             //echo $branchName
+	     //echo $shortCommitHash
 
              //something else
              PR_List = sh(
-                     script: "curl https://api.github.com/repos/imuchnik/cfpb_jenkinsfile_test/pulls?state=closed | jq  -c -r  '.[] | .number' ",
+                     script: "curl https://api.github.com/repos/locktree/jenkins_test/pulls?state=closed | jq  -c -r  '.[] | .number' ",
                      returnStdout: true
              ).trim().split('\n')[0]
              print("${PR_List}")
