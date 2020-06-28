@@ -14,10 +14,11 @@
  * // 7. Functional and/or manual tests
  * // 8. Deployment in production
  * // ----------------------------------------------------------------------
- * // PAGE: http://localhost:9090/
- * // REPO: https://github.com/locktree/jenkins_test/
- * // TXT : /home/mitchell/Downloads/JENKINS.txt
- * // START: java -jar ~/Downloads/jenkins.war --httpPort=9090
+ * // PAGE:     http://localhost:9090/
+ * // REPO:     https://github.com/locktree/jenkins_test/
+ * // TXT :     /home/mitchell/Downloads/JENKINS.txt
+ * // JK File:  /home/mislotbo/rommelvak/jenkins_test/Jenkinsfile
+ * // START:    java -jar ~/Downloads/jenkins.war --httpPort=9090
  * // ----------------------------------------------------------------------
  */
 
@@ -42,6 +43,12 @@ pipeline {
             }
             steps {
                 echo 'Initialize..'
+                when {
+		    branch 'master'
+		 }
+                steps {
+                   echo 'BASIC WHEN - Master Branch!'
+                }
             }
         }
 
@@ -52,11 +59,13 @@ pipeline {
             }
         }
 
+
         stage('Test') {
             steps {
                 echo 'Testing..'
             }
         }
+
 
         stage('Deploy') {
             steps {
