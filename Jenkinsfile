@@ -17,6 +17,7 @@
  * // PAGE: http://localhost:9090/
  * // REPO: https://github.com/locktree/jenkins_test/
  * // TXT : /home/mitchell/Downloads/JENKINS.txt
+ * // START: java -jar ~/Downloads/jenkins.war --httpPort=9090
  * // ----------------------------------------------------------------------
  */
 
@@ -28,8 +29,7 @@ pipeline {
         timestamps()
         retry(3)
         ansiColor("xterm")
-        timeout time:10, unit:'MINUTES'
-        timeout(time: 3, unit: "SECONDS")
+        timeout(time: 20, unit: "SECONDS")
 
         buildDiscarder(logRotator(numToKeepStr:'5'))   // Only keep the 10 most recent builds
    }
