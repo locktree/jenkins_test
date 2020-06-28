@@ -38,6 +38,7 @@ pipeline {
         stage('Initialize') {
             environment {
                 // Some stage specific variables
+                LOG='something'
             }
             steps {
                 when {
