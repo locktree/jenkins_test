@@ -72,6 +72,10 @@ pipeline {
         stage('Test') {
             steps {
                 echo 'Testing..'
+                sh """
+                    export PATH=${VIRTUAL_ENV}/bin:${PATH}
+                    flake8 | tee report/flake8.log || true
+                """
             }
         }
 
