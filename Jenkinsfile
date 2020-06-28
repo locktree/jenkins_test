@@ -46,6 +46,11 @@ pipeline {
             }
             steps {
                 echo 'Initialize..'
+
+                writeFile file: 'test-results.txt', text: 'hello passed'   //write file to jenkins workspace
+                sh 'cat test-results.txt'
+
+                sh 'env | sort'
             }
         }
 
@@ -57,9 +62,6 @@ pipeline {
             steps {
                 echo 'Building..'
                 echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}"
-                echo $PWD
-                writeFile file: 'test-results.txt', text: 'hello passed'   //write file to jenkins workspace
-                sh 'cat test-results.txt'
             }
         }
 
