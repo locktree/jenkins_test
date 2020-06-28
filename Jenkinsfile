@@ -43,11 +43,8 @@ pipeline {
             }
             steps {
                 echo 'Initialize..'
-                when {
-		    branch 'master'
-		 }
-                steps {
-                   echo 'BASIC WHEN - Master Branch!'
+                if (env.BRANCH_NAME ==~ /(dev|master)/) {
+                    echo "im masterrrrrrrrrrrrrrrrrrrrrrrr'
                 }
             }
         }
