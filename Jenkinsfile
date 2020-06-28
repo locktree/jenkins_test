@@ -1,5 +1,38 @@
 #!/usr/bin/env groovy
 
+
+def getShortCommitHash() {
+    return sh(returnStdout: true, script: "git log -n 1 --pretty=format:'%h'").trim()
+}
+
+def getChangeAuthorName() {
+    return sh(returnStdout: true, script: "git show -s --pretty=%an").trim()
+}
+
+def getChangeAuthorEmail() {
+    return sh(returnStdout: true, script: "git show -s --pretty=%ae").trim()
+}
+
+def getChangeSet() {
+    return sh(returnStdout: true, script: 'git diff-tree --no-commit-id --name-status -r HEAD').trim()
+}
+
+def getChangeLog() {
+    return sh(returnStdout: true, script: "git log --date=short --pretty=format:'%ad %aN <%ae> %n%n%x09* %s%d%n%b'").trim()
+}
+
+def getCurrentBranch () {
+    return sh (
+            script: 'git rev-parse --abbrev-ref HEAD',
+            returnStdout: true
+    ).trim()
+}
+
+def isPRMergeBuild() {
+    return (env.BRANCH_NAME ==~ /^PR-\d+$/)
+}
+
+
 /*
  * // ----------------------------------------------------------------------
  * // Simple Jenkinsfile example
@@ -142,34 +175,5 @@ pipeline {
 
 
 
-def getShortCommitHash() {
-    return sh(returnStdout: true, script: "git log -n 1 --pretty=format:'%h'").trim()
-}
 
-def getChangeAuthorName() {
-    return sh(returnStdout: true, script: "git show -s --pretty=%an").trim()
-}
-
-def getChangeAuthorEmail() {
-    return sh(returnStdout: true, script: "git show -s --pretty=%ae").trim()
-}
-
-def getChangeSet() {
-    return sh(returnStdout: true, script: 'git diff-tree --no-commit-id --name-status -r HEAD').trim()
-}
-
-def getChangeLog() {
-    return sh(returnStdout: true, script: "git log --date=short --pretty=format:'%ad %aN <%ae> %n%n%x09* %s%d%n%b'").trim()
-}
-
-def getCurrentBranch () {
-    return sh (
-            script: 'git rev-parse --abbrev-ref HEAD',
-            returnStdout: true
-    ).trim()
-}
-
-def isPRMergeBuild() {
-    return (env.BRANCH_NAME ==~ /^PR-\d+$/)
-}
 
