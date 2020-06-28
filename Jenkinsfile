@@ -50,9 +50,52 @@ pipeline {
                 writeFile file: 'test-results.txt', text: 'hello passed'   //write file to jenkins workspace
                 sh 'cat test-results.txt'
 
-                //sh 'env | sort'
+                sh 'env | sort'
             }
         }
+
+
+
+        // ----------------------------------------------------------------------
+        //    GIT INFORMATION
+        // ----------------------------------------------------------------------
+ stage('Get some git information') {
+     steps {
+         script {
+             branchName = getCurrentBranch()
+             shortCommitHash = getShortCommitHash()
+             echo $branchName
+	     echo $shortCommitHash
+
+             //something else
+             PR_List = sh(
+                     script: "curl https://api.github.com/repos/imuchnik/cfpb_jenkinsfile_test/pulls?state=closed | jq  -c -r  '.[] | .number' ",
+                     returnStdout: true
+             ).trim().split('\n')[0]
+             print("${PR_List}")
+
+             // something else
+             if(env.BRANCH_NAME == "master") {
+                   tag = "latest"
+             } else {
+                  tag = env.BRANCH_NAME
+             }
+
+             //something else
+             //try{
+             //    sh 'bin/destroy.sh >> debug'
+             //} catch(error) {
+             //    def error_details = readFile('./debug');
+             //    def message = "BUILD ERROR: There was a problem building the Base Image. \n\n ${error_details}"
+             //    sh "rm -f ./debug"
+             //    handleError(message)
+             //}
+         }
+     }
+ }
+
+
+
 
 
         // ----------------------------------------------------------------------
@@ -72,10 +115,6 @@ pipeline {
         stage('Test') {
             steps {
                 echo 'Testing..'
-                sh """
-                    export PATH=${VIRTUAL_ENV}/bin:${PATH}
-                    flake8 | tee report/flake8.log || true
-                """
             }
         }
 
@@ -94,4 +133,43 @@ pipeline {
     }
 }
 
+
+
+
+
+
+
+
+
+
+def getShortCommitHash() {
+    return sh(returnStdout: true, script: "git log -n 1 --pretty=format:'%h'").trim()
+}
+
+def getChangeAuthorName() {
+    return sh(returnStdout: true, script: "git show -s --pretty=%an").trim()
+}
+
+def getChangeAuthorEmail() {
+    return sh(returnStdout: true, script: "git show -s --pretty=%ae").trim()
+}
+
+def getChangeSet() {
+    return sh(returnStdout: true, script: 'git diff-tree --no-commit-id --name-status -r HEAD').trim()
+}
+
+def getChangeLog() {
+    return sh(returnStdout: true, script: "git log --date=short --pretty=format:'%ad %aN <%ae> %n%n%x09* %s%d%n%b'").trim()
+}
+
+def getCurrentBranch () {
+    return sh (
+            script: 'git rev-parse --abbrev-ref HEAD',
+            returnStdout: true
+    ).trim()
+}
+
+def isPRMergeBuild() {
+    return (env.BRANCH_NAME ==~ /^PR-\d+$/)
+}
 
