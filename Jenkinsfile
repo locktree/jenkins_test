@@ -43,11 +43,6 @@ pipeline {
             }
             steps {
                 echo 'Initialize..'
-                script {
-                    if (env.BRANCH_NAME ==~ /(dev|master)/) {
-                        echo "im masterrrrrrrrrrrrrrrrrrrrrrrr"
-                    }
-                }
             }
         }
 
