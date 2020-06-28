@@ -58,11 +58,7 @@ pipeline {
                 echo 'Building..'
                 echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}"
                 writeFile file: 'test-results.txt', text: 'hello passed' 
-
-                def fileContents = readFile file: "test-results.txt", encoding: "UTF-8"
-                fileContents = fileContents.replace("hello", "world")
-                echo fileContents
-                writeFile file: "test-results.txt", text: fileContents, encoding: "UTF-8"
+                sh 'test-results.txt'
             }
         }
 
