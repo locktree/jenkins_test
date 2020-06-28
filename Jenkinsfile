@@ -102,7 +102,7 @@ pipeline {
 
              //something else
              PR_List = sh(
-                     script: "curl https://api.github.com/repos/locktree/jenkins_test/pulls?state=closed | jq  -c -r  '.[] | .number' ",
+                     script: "curl https://api.github.com/repos/locktree/jenkins_test/pulls?state=open | jq  -c -r  '.[] | .number' ",
                      returnStdout: true
              ).trim().split('\n')[0]
              print("${PR_List}")
