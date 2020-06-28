@@ -46,8 +46,8 @@ pipeline {
                 steps {
                    echo 'BASIC WHEN - Master Branch!'
                 }
+            }
         }
-
 
 
         stage('Build') {
