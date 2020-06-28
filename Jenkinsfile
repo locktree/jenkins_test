@@ -102,16 +102,16 @@ pipeline {
 
              //something else
              PR_List = sh(
-                     script: "curl https://api.github.com/repos/locktree/jenkins_test/pulls?state=open | jq  -c -r  '.[] | .number' ",
+                     script: "curl https://api.github.com/repos/locktree/jenkins_test/pulls?state=closed | jq  -c -r  '.[] | .number' ",
                      returnStdout: true
              ).trim().split('\n')[0]
              print("${PR_List}")
 
              // something else
              if(env.BRANCH_NAME == "master") {
-                   tag = "latest"
+                   echo 'masterrrrrrrrrrrrr'
              } else {
-                  tag = env.BRANCH_NAME
+                  echo 'not on the master'
              }
 
              //something else
