@@ -41,12 +41,7 @@ pipeline {
                 LOG='something'
             }
             steps {
-                when {
-		    branch 'master'
-		 }
-                steps {
-                   echo 'BASIC WHEN - Master Branch!'
-                }
+                echo 'Initialize..'
             }
         }
 
